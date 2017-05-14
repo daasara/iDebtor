@@ -30,7 +30,7 @@ class Customer(models.Model):
         return ("{} {}".format(self.first_name, self.last_name))
 
     class Meta:
-        db_table = 'tbl_profiles'
+        db_table = 'tbl_profile'
         managed = True
 
 # This model shall be associated with a Debt Model, i.e each customer has a debt/loan statement.

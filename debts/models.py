@@ -49,5 +49,5 @@ class Debt(models.Model):  # This is the Debt model
         return("Loan Status for {} {}".format(self.customer.first_name, self.customer.last_name))
 
     class Meta:
-        db_table = 'tbl_due_listing'
+        db_table = 'tbl_due_listin'
         managed = True
