@@ -13,6 +13,7 @@ urlpatterns = [
     # url(r'^', include('django.contrib.auth.urls')),
     url(r'^', include('accounts.urls')),
     url(r'^', include('debts.urls')),
+    url(r'^', include('profiles.urls')),
 
 
 ]

@@ -5,6 +5,7 @@ from rest_framework import viewsets
 from .models import Debt
 from .serializers import DebtSerializer
 from accounts.models import User
+from .forms import CreateDebtForm
 
 
 def customer_list(request):
@@ -33,3 +34,15 @@ def reports(request):
     else:
         templatename = 'reportforB.html'
     return render(request, templatename, {})
+
+
+def new_debtor(request):
+    if request.method == 'POST':
+        user_form = CreateDebtForm(request.POST)
+        if user_form.is_valid():
+            new_customer = user_form.save(commit=False)
+            new_customer.save()
+            return render(request, 'new_customer.html', {'new_customer': new_customer})
+    else:
+        user_form = CreateDebtForm()
+    return render(request, 'new_customer.html', {'user_form': user_form})

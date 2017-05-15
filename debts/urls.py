@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^$', views.home, name='home'),
 
     url(r'^reports/$', views.reports, name='reports'),
+    url(r'^new-customer/$', views.new_debtor, name='new_debtor'),
 
     url(r'^search/$', Search.as_view(), name='search'),                  # This is the Landing Page/Home View
     url(r'^customer.json$', CustomerAutoComplete.as_view()),

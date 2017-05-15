@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.core import serializers
 from django.views.generic import View
 from debts.models import Debt
-from .forms import SearchForm
+from .forms import SearchForm, CreateProfileForm
 from .models import Customer
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -15,6 +15,18 @@ from django.views.decorators.cache import cache_page
 def home(request):
             # Prepare the landing page for rendering
     return render(request, 'landing.html', {})
+
+
+def register(request):
+    if request.method == 'POST':
+        user_form = CreateProfileForm(request.POST)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.save()
+            return render(request, 'register_done.html', {'new_user': new_user})
+    else:
+        user_form = CreateProfileForm()
+    return render(request, 'register.html', {'user_form': user_form})
 
 
 # view to display list of all the Debts

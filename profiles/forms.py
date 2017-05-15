@@ -1,4 +1,5 @@
 from django import forms
+from .models import Customer
 
 
 class SearchForm(forms.Form):
@@ -8,4 +9,8 @@ class SearchForm(forms.Form):
                                                           'data-provide': 'typeahead',
                                                           'class': 'form-control customer-search typeahead'}))
 
-# Profiles forms.py
+
+class CreateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['first_name', 'last_name', 'email', 'phone', 'idNumber', 'residence', 'occupation']

@@ -13,8 +13,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li ><a href="{% url 'home' %}"><span class="fa fa-home fa-lg">Home</span></a></li>
-            <li><a href="" class="tooltip-bottom" title="About iDebtor">About </b></a></li>
-            <li><a href="#contact" class="tooltip-bottom" title="Contact iDebtor Team">Contact</a></li>
+            <li><a href="{% url 'register' %}" class="tooltip-bottom" title="New User">New User </b></a></li>
+            <li><a href="{% url 'new_debtor' %}" class="tooltip-bottom" title="">New Customer</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {% if not request.user.is_authenticated %}
