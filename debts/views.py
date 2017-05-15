@@ -4,6 +4,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Debt
 from .serializers import DebtSerializer
+from accounts.models import User
 
 
 def customer_list(request):
@@ -26,4 +27,9 @@ def home(request):
 
 
 def reports(request):
-    return render(request, 'reports.html', {})
+    users = User.objects.filter(role='RoleA')
+    if request.user in users:
+        templatename = 'reports.html'
+    else:
+        templatename = 'reportforB.html'
+    return render(request, templatename, {})

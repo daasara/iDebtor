@@ -2,7 +2,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 # This module contains the validation and set up of a Phone Number Field ( of the format +254712345678)
-from phonenumber_field.modelfields import PhoneNumberField
+# from phonenumber_field.modelfields import PhoneNumberField
 
 
 # Creating a new model manager, to allow for serialization of the Customer model.
@@ -16,7 +16,7 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=30,)
     last_name = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
-    phone = PhoneNumberField(help_text='Use +254712345678 Format', blank=False, unique=True)
+    phone = models.PositiveIntegerField(unique=True, validators=[MinValueValidator(0), MaxValueValidator(9999999999999999)])
     idNumber = models.PositiveIntegerField(unique=True, validators=[MinValueValidator(0),
                                                                     MaxValueValidator(999999999)])
     residence = models.CharField(max_length=20)

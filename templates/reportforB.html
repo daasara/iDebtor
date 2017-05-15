@@ -48,7 +48,7 @@
              with the various buttons for file export
             {% endcomment %}
             
-            <table id="staff_table" class="table table-striped table-sm table-responsive table-condensed table-hover" cellspacing="0" width="100%">
+            <table id="general_user" class="table table-striped table-sm table-responsive table-condensed table-hover" cellspacing="0" width="100%">
                  <thead>
                      <tr>
                          <th>Transaction ID</th>
@@ -80,21 +80,18 @@
         <script type="text/javascript">
         $(document).ready(function() {
             //Initializing the datatable for rendering (For the Staff User)
-            // This table contains the buttons for rendering the Export Buttons
-        var staff_table =  $('#staff_table').DataTable({
-                "dom": "<'row'<'toolbar'><'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
-            "<'row'<'col-sm-12'tr>>" +
-            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-                "bPaginate":true,
-                "processing" : true,   //Allowing for action from the server
-                ajax : {
+      
 
-                    //This is the API endpoint for the JSON data to be rendered by the table
-                   "url" : "{% url 'customer_list'%}",
-                   "dataSrc" : ''
+        //This table is for the General User who does not have rights to download the File
+        var general_table =  $('#general_user').DataTable({
+                "dom": '<"toolbar">lfrtip',
+                "bPaginate":true,
+                "processing" : true,
+                ajax : {
+                    "url" : "{% url 'customer_list' %}",
+                    "dataSrc" : ''
                 },
-                //Rendering the columns with values from the backend URL (http://127.0.0.1:8000/api/customers/?format=json)
-                "columns" : [ 
+                 "columns" : [ 
                 {
                     "data" : "pk"
                 },
@@ -120,27 +117,23 @@
                     "data" : "fields.transaction_time"
                 }],
               
-                buttons: [ 'copyHtml5', 'excelHtml5', 'pdfHtml5', 'csvHtml5', 'print'],
-
+                    //Defining the values for Items-per-page dropdown 
                 "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
                
             });
-
-        //This table is for the General User who does not have rights to download the File
-       
-        // Function to allow highlighting of Matching tables
-        staff_table.on( 'draw', function () {
-            var body = $( staff_table.table().body() );
-            body.unhighlight();
-            body.highlight( staff_table.search() );  
-        });
-
         
+        // Function to allow highlighting of Matching tables
+
+        general_table.on('draw', function(){
+            var body1 = $(general_table.table().body());
+            body1.unhighlight();
+            body1.highlight(general_table.search());
+        });
         $("div.toolbar").html('<b>Customer Loan Status.</b><hr>');
 
         //Function to reload the table. User paging is not reset on reload
             setInterval( function () {
-            staff_table.ajax.reload( null, false ); 
+            general_table.ajax.reload( null, false );
                 }, 30000 );  //Reload times can be adjusted by changing the value 
             
         });
