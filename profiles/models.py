@@ -7,8 +7,12 @@ from django.db import models
 
 # Creating a new model manager, to allow for serialization of the Customer model.
 class PersonManager(models.Manager):
-    def get_by_natural_key(self, first_name, last_name, email, phone, idNumber):
-        return self.get(first_name=first_name, last_name=last_name, email=email, phone=phone, idNumber=idNumber)
+    def get_by_natural_key(self, first_name, last_name, email, mobile_number, national_id):
+        return self.get(first_name=first_name,
+                        last_name=last_name,
+                        email=email,
+                        mobile_number=mobile_number,
+                        national_id=national_id)
 
 
 class Customer(models.Model):
@@ -16,11 +20,17 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=30,)
     last_name = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
-    phone = models.PositiveIntegerField(unique=True, validators=[MinValueValidator(0), MaxValueValidator(9999999999999999)])
-    idNumber = models.PositiveIntegerField(unique=True, validators=[MinValueValidator(0),
-                                                                    MaxValueValidator(999999999)])
-    residence = models.CharField(max_length=20)
-    occupation = models.CharField(max_length=20, blank=False)
+    mobile_number = models.PositiveIntegerField(unique=True,
+                                                validators=[MinValueValidator(0), MaxValueValidator(9999999999999999)])
+    national_id = models.PositiveIntegerField(unique=True,
+                                              validators=[MinValueValidator(0),
+                                                          MaxValueValidator(999999999)])
+    # residence = models.CharField(max_length=20)
+    # occupation = models.CharField(max_length=20, blank=False)
+    fully_clreared = models.BooleanField(default=False)
+    date_cleared = models.DateField(auto_now_add=True)
+    batch_numbers = models.IntegerField()
+    mpesa_trans_id = models.CharField(max_length=30)
 
     def natural_key(self):
         return (self.first_name, self.last_name, self.email, self.idNumber)

@@ -50,10 +50,10 @@ class BaseUserManager(models.Manager):
 
 @python_2_unicode_compatible
 class AbstractBaseUser(models.Model):
-    password = models.CharField(_('password'), max_length=128)
+    user_password = models.CharField(_('user_password'), max_length=128)
     # last_login = models.DateTimeField(_('last login'), blank=True, null=True)
 
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['user_password']
 
     class Meta:
         abstract = True
@@ -66,7 +66,7 @@ class AbstractBaseUser(models.Model):
         super(AbstractBaseUser, self).__init__(*args, **kwargs)
         # Stores the raw password if set_password() is called so that it can
         # be passed to password_changed() after the model is saved.
-        self._password = None
+        self._user_password = None
 
     def __str__(self):
         return self.get_username()
@@ -76,9 +76,9 @@ class AbstractBaseUser(models.Model):
 
     def save(self, *args, **kwargs):
         super(AbstractBaseUser, self).save(*args, **kwargs)
-        if self._password is not None:
-            password_validation.password_changed(self._password, self)
-            self._password = None
+        if self._user_password is not None:
+            password_validation.password_changed(self._user_password, self)
+            self._user_password = None
 
     def natural_key(self):
         return (self.get_username(),)
@@ -100,8 +100,8 @@ class AbstractBaseUser(models.Model):
         return CallableTrue
 
     def set_password(self, raw_password):
-        self.password = make_password(raw_password)
-        self._password = raw_password
+        self.user_password = make_password(raw_password)
+        self._user_password = raw_password
 
     def check_password(self, raw_password):
         """
@@ -111,16 +111,16 @@ class AbstractBaseUser(models.Model):
         def setter(raw_password):
             self.set_password(raw_password)
             # Password hash upgrades shouldn't be considered password changes.
-            self._password = None
-            self.save(update_fields=["password"])
-        return check_password(raw_password, self.password, setter)
+            self._user_password = None
+            self.save(update_fields=["user_password"])
+        return check_password(raw_password, self.user_password, setter)
 
     def set_unusable_password(self):
         # Set a value that will never be a valid hash
-        self.password = make_password(None)
+        self.user_password = make_password(None)
 
     def has_usable_password(self):
-        return is_password_usable(self.password)
+        return is_password_usable(self.user_password)
 
     def get_full_name(self):
         raise NotImplementedError('subclasses of AbstractBaseUser must provide a get_full_name() method')
@@ -133,7 +133,7 @@ class AbstractBaseUser(models.Model):
         Return an HMAC of the password field.
         """
         key_salt = "django.contrib.auth.models.AbstractBaseUser.get_session_auth_hash"
-        return salted_hmac(key_salt, self.password).hexdigest()
+        return salted_hmac(key_salt, self.user_password).hexdigest()
 
     @classmethod
     def normalize_username(cls, username):

@@ -13,4 +13,4 @@ class SearchForm(forms.Form):
 class CreateProfileForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['first_name', 'last_name', 'email', 'phone', 'idNumber', 'residence', 'occupation']
+        fields = '__all__'
