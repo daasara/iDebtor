@@ -1,0 +1,63 @@
+ <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'home' %}"><strong>iDebtor</strong></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li ><a href="{% url 'home' %}"><span class="fa fa-home fa-lg">Home</span></a></li>
+            <li><a href="{% url 'register' %}" class="tooltip-bottom" title="New User">New User </b></a></li>
+            <li><a href="{% url 'new_debtor' %}" class="tooltip-bottom" title="">New Customer</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% if not request.user.is_authenticated %}
+    </ul>
+        
+        {% if not "/login/" in request.get_full_path %}
+        {# Hii ndio the Login Form for a user with an active Signup/account #}
+         <form class='navbar-form navbar-right' method='POST' action="{% url 'login' %}">{% csrf_token %}
+           <div class='form-group'>
+             <input type='text' class='form-control' name='username' placeholder='Username' /> 
+           </div>
+           <div class='form-group'>
+             <input type='password' class='form-control' name='password' placeholder='Password' />
+           </div>
+            <button type='submit' class='btn btn-default'>Login</button>
+            <input type="hidden" name="next" value="{{ next }}" />
+         </form>
+
+         {% endif %}
+         {% endif %}
+          {%  if request.user.is_authenticated %}
+           {# <li><a href="{% url 'logout' %}"></a></li> #}
+           <p class="navbar-text">
+            <i class="glyphicon glyphicon-user"></i> {{ request.user.username }}
+            {{ user.joined }}
+        </p>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-settings"></span> Settings
+            </a>
+              <ul class="dropdown-menu">
+              {% if request.user.is_staff %} 
+                  <li><a href="/admin/">Admin Dashboard</a></li>
+              {% endif %}
+               <li role="separator" class="divider"></li>
+                  <li><a href="#">Change Password</a></li>
+                </ul>
+            </li>
+
+         
+            <li><a href="{% url 'logout' %}">logout <span class="fa fa-power-off"></span></b></a></li>
+        {% endif %}          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+  
