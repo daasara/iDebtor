@@ -1,0 +1,52 @@
+HOW TO DEPLOY
+1.Check for a Python 3 installation in your machine by running python3 on the terminal. If python3 is installed, you can skip to step 4. Otherwise follow the guide step by step
+2. Install Python3 on your machine 
+    [sudo apt-get install python3 for Ubuntu]
+3. You can ensure that your Python is installed correctly by opening terminal (Bash) 
+    and running python3.
+    You should get an output like: 
+        Python 3.5.2 (default, Nov 17 2016, 17:05:23) 
+        [GCC 5.4.0 20160609] on linux
+        Type "help", "copyright", "credits" or "license" for more information.
+        >>> 
+
+
+4. Type exit() to quit the python interpreter.
+5. Install PIP (The python package manager) with the following command:
+    sudo apt-get install -y python3-pip
+    
+    Syntax for using pip is pip install [packagename] where [packagename] is the name of the package. i.e,
+    pip install django -> would download the latest version of django and install it on the system.
+6.Set up a Virtual Environment to run your code within
+    Command is : sudo apt install -y python3-venv
+7.Create a folder that shall hold the Virtual environment files
+    mkdir environments
+    and navigate to it.
+    cd environments
+8. Then create your environment by issuing:
+    pyvenv myenv -> where myvenv is the name of your Virtual Environment
+9. issuing ls myenv shall list all the directories within the myenv folder(environment).
+    The output shall be as follows:
+        bin include lib lib64 pyvenv.cfg share
+10. Time to activate our environment
+    source myenv/bin/activate 
+    shall activate the environment, and your terminal shall look like:
+    (my_env) dev@devserver:~/environments$
+11. You can either download this repo or clone it.
+12. Once you have downloaded the repo, extract it and navigate to the 
+    src/ folder. 
+13. On your terminal type
+    pip install -r requirements.txt
+    This shall install the dependencies for this app.
+14. Once pip has finished installing the dependencies,
+    run
+    python3 manage.py runserver [host][port]
+    Where [host] is your IP
+    and [port] is the port on which it should run on.
+
+You can access the landing page at http:[host][port]
+Log in using the username and password stored in the POSTGRESQL DB running on the Server. [Usernames and passwords are predefined on the Remote DB Server].
+If user does not have Login credentials on the server, they can create credentials by issuing
+python3 manage.py createsuperuser
+
+
