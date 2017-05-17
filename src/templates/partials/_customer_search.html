@@ -8,11 +8,12 @@ To reduce response time and improve usability
   {% for debt in debts %}
         {# Rendering the matches on Bootstrap Well divs#}
         <div class="well">
-        <span>Customer Name:<b>    &nbsp;&nbsp;&nbsp;&nbsp; {{ customer.first_name }} {{ customer.last_name }}</b></span><br>
-        <span>National ID Number:  <b>{{ customer.idNumber }}</b></span><br>
+        <span>National ID Number:  <b>{{ customer.national_id }}</b></span><br>
         <span>Customer Phone:      &nbsp;&nbsp;&nbsp;&nbsp;<b>{{ customer.phone }} </b></span><br>
-       <spam>Loan Amount:          &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<b>{{ debt.amount }}</b></spam><br>
-       <span>Debt Status:          &nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; <b>{{ debt.status }}</b></span>
+       <spam>Loan Amount:          &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<b>{{ debt.loan_amount }}</b></spam><br>
+       <span>Debt (Balance):          &nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; <b>{{ debt.loan_balance }}</b></span><br>
+        <span>Issued on:          &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<b>{{ debt.loan_issue_date }}</b></spam><br>
+       <span>Due on:          &nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; <b>{{ debt.due_date }}</b></span>
 
     </div>
     {# {% endif %} #}

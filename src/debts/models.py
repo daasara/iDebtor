@@ -38,9 +38,13 @@ class Debt(models.Model):  # This is the Debt model
                     (DEFAULTER, 'Defaulter'))
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    status = models.CharField(max_length=20, choices=LOAN_STATUSES, default=PAYING)
-    amount = models.DecimalField(blank=False, max_digits=9, decimal_places=2, default=0, validators=[validate_positive])
-    transaction_time = models.DateTimeField(auto_now=True)
+    # status = models.CharField(max_length=20, choices=LOAN_STATUSES, default=PAYING)
+    loan_amount = models.DecimalField(blank=False, max_digits=9, decimal_places=2, default=0, validators=[validate_positive])
+    loan_balance = models.DecimalField(blank=False, max_digits=9, decimal_places=2, default=0, validators=[validate_positive])
+    loan_issue_date = models.DateTimeField(auto_now_add=True)
+    due_date = models.DateTimeField(auto_now=True)
+    # transaction_time = models.DateTimeField(auto_now=True)
+    # loan balance = models.DecimalField(blank=False, max_digits=9, decimal_places=2, default=0, validators=[validate_positive])
 
     # class Meta:
     #     unique_together = (('first_name', 'last_name'),)

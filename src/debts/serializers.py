@@ -5,4 +5,4 @@ from .models import Debt
 class DebtSerializer(serializers.ModelSerializer):
     class Meta:
         model = Debt
-        fields = ('customer', 'amount', 'status', 'transaction_time')
+        fields = '__all__'

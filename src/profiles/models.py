@@ -7,19 +7,19 @@ from django.db import models
 
 # Creating a new model manager, to allow for serialization of the Customer model.
 class PersonManager(models.Manager):
-    def get_by_natural_key(self, first_name, last_name, email, mobile_number, national_id):
-        return self.get(first_name=first_name,
-                        last_name=last_name,
-                        email=email,
-                        mobile_number=mobile_number,
-                        national_id=national_id)
+    def get_by_natural_key(self, mobile_number, national_id, fully_cleared, batch_numbers, clearing_mpesa_trans_id):
+        return self.get(mobile_number=mobile_number,
+                        national_id=national_id,
+                        fully_cleared=fully_cleared,
+                        batch_numbers=batch_numbers,
+                        clearing_mpesa_trans_id=clearing_mpesa_trans_id)
 
 
 class Customer(models.Model):
     objects = PersonManager()
-    first_name = models.CharField(max_length=30,)
-    last_name = models.CharField(max_length=30)
-    email = models.EmailField(unique=True)
+    # first_name = models.CharField(max_length=30,)
+    # last_name = models.CharField(max_length=30)
+    # email = models.EmailField(unique=True)
     mobile_number = models.PositiveIntegerField(unique=True,
                                                 validators=[MinValueValidator(0), MaxValueValidator(9999999999999999)])
     national_id = models.PositiveIntegerField(unique=True,
@@ -27,17 +27,17 @@ class Customer(models.Model):
                                                           MaxValueValidator(999999999)])
     # residence = models.CharField(max_length=20)
     # occupation = models.CharField(max_length=20, blank=False)
-    fully_clreared = models.BooleanField(default=False)
+    fully_cleared = models.BooleanField(default=False)
     date_cleared = models.DateField(auto_now_add=True)
     batch_numbers = models.IntegerField()
-    mpesa_trans_id = models.CharField(max_length=30)
+    clearing_mpesa_trans_id = models.CharField(max_length=30, unique=True)
 
     def natural_key(self):
-        return (self.first_name, self.last_name, self.email, self.idNumber)
+        return (self.national_id, self.mobile_number, self.batch_numbers, self.clearing_mpesa_trans_id)
 
     def __str__(self):
         # return ("Details for {} {}".format(self.first_name, self.last_name))
-        return ("{} {}".format(self.first_name, self.last_name))
+        return ("{} {}".format(self.mobile_number, self.national_id))
 
     class Meta:
         db_table = 'tbl_profiles'

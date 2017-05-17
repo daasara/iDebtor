@@ -13,8 +13,9 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li ><a href="{% url 'home' %}"><span class="fa fa-home fa-lg">Home</span></a></li>
-            <li><a href="{% url 'register' %}" class="tooltip-bottom" title="New User">New User </b></a></li>
-            <li><a href="{% url 'new_debtor' %}" class="tooltip-bottom" title="">New Customer</a></li>
+            <li><a href="{% url 'register' %}" class="tooltip-bottom" title="Add a new customer">Add Customer</b></a></li>
+            <li><a href="{% url 'new_debtor' %}" class="tooltip-bottom" title="Create a new Transaction">New Transaction</a></li>
+            <li><a href="{% url 'new_user' %}" class="tooltip-bottom" title="Add a new account for login">New User</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {% if not request.user.is_authenticated %}

@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.core import serializers
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Debt
@@ -27,8 +28,9 @@ def home(request):
     return render(request, templatename, {})
 
 
+@login_required
 def reports(request):
-    users = User.objects.filter(role='RoleA')
+    users = User.objects.filter(user_role='RoleA')
     if request.user in users:
         templatename = 'reports.html'
     else:
@@ -42,7 +44,7 @@ def new_debtor(request):
         if user_form.is_valid():
             new_customer = user_form.save(commit=False)
             new_customer.save()
-            return render(request, 'new_customer.html', {'new_customer': new_customer})
+            return render(request, 'home.html', {})
     else:
         user_form = CreateDebtForm()
     return render(request, 'new_customer.html', {'user_form': user_form})

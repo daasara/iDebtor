@@ -35,8 +35,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     # Django default apps
-    'dal',
-    'dal_select2',
     'accounts',
     # 'django.contrib.admin',
     'django.contrib.auth',
@@ -50,7 +48,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'phonenumber_field',
     'rest_framework',
-    'widget_tweaks',
+    # 'widget_tweaks',
 
     # These are the developed apps
     'debts',
@@ -63,6 +61,7 @@ AUTHENTICATION_BACKENDS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -99,10 +98,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'testdb',
-        'USER': 'dev001',
-        'PASSWORD': 'EV5gy2pQPDhC4H&fg3$5qzWL*9P4=D2K8ta9x&Qr2',
-        'HOST': '51.140.33.76',
-        'PORT': '6773',
+        'USER': 'developer001',
+        'PASSWORD': 'Sectumsempra123',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 

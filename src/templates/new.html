@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Create an account{% endblock %}
+{% block content %}
+{% include 'navbar.html' %}
+<br><br><br>
+<div class="content">
+
+<h1 class="text-center">Create an account</h1>
+<hr>
+<div class="col-sm-6 col-sm-offset-3" text-center>
+<p>Password is displayed for clarity. Ensure you type it correct</p>
+
+<form action="{% url 'new_user' %}" method="post">
+{{ form | crispy }}
+{% csrf_token %}
+<p><input type="submit" class="btn btn-success btn-block" value="Create account"></p>
+</form>
+</div>
+</div>
+{% endblock %}

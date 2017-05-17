@@ -23,7 +23,7 @@ def register(request):
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.save()
-            return render(request, 'register_done.html', {'new_user': new_user})
+            return render(request, 'home.html')
     else:
         user_form = CreateProfileForm()
     return render(request, 'register.html', {'user_form': user_form})
@@ -33,8 +33,9 @@ def register(request):
 def customer_list(request):
     debts = Debt.objects.all()
     #  Serializing the data from the queryset to JSON for consumption by the DataTable
-    json = serializers.serialize('json', debts, use_natural_foreign_keys=True, use_natural_primary_keys=True,     # This tweak is for converting the customer pk to respective first_name
-                                 fields=('customer', 'status', 'amount', 'transaction_time'))                     # and last_name. "fields" restricts the fields to be serialized & displayed
+    json = serializers.serialize('json', debts,
+                                 use_natural_foreign_keys=True,
+                                 use_natural_primary_keys=True)    # This tweak is for converting the customer pk to respective first_n                     # and last_name. "fields" restricts the fields to be serialized & displayed
     return HttpResponse(json, content_type='application/json')
 
 
@@ -51,8 +52,8 @@ class Search(View):
         form = SearchForm(request.POST or None)
         if form.is_valid():
             query = form.cleaned_data['query']
-            customers = Customer.objects.filter(Q(idNumber__exact=query) |
-                                                Q(phone__exact=query))
+            customers = Customer.objects.filter(Q(national_id__exact=query) |
+                                                Q(mobile_number__exact=query))
             debts = Debt.objects.filter(customer=customers)
             # context = Context({'customers': customers, 'query': query})
             return_str = render_to_string('partials/_customer_search.html',
@@ -68,10 +69,10 @@ class CustomerAutoComplete(View):
         query = request.GET['query']
         if query is not None and query is not "":
             customerlist = []
-            customers = Customer.objects.filter(idNumber__icontains=query)
+            customers = Customer.objects.filter(national_id__icontains=query)
             for customer in customers:
                 temp = dict()
-                temp["query"] = (customer.idNumber)
+                temp["query"] = (customer.national_id)
                 customerlist.append(temp)
             return JsonResponse(customerlist, safe=False)
 # Profiles views.py
